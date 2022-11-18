@@ -13,16 +13,16 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Retrieve NavController from the NavHostFragment
+        // Ambil NavController dari NavHostFragment
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        // Set up the action bar for use with the NavController
+        // Siapkan bilah tindakan untuk digunakan dengan NavController
         setupActionBarWithNavController(this, navController)
     }
 
     /**
-     * Handle navigation when the user chooses Up from the action bar.
+     * Tangani navigasi saat pengguna memilih Naik dari bilah tindakan.
      */
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()

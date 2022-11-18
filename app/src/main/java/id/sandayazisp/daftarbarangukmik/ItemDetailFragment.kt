@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2021 The Android Open Source Project.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package id.sandayazisp.daftarbarangukmik
 
 import android.os.Bundle
@@ -29,9 +13,6 @@ import id.sandayazisp.daftarbarangukmik.data.getFormattedPrice
 import id.sandayazisp.daftarbarangukmik.databinding.FragmentItemDetailBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-/**
- * [ItemDetailFragment] displays the details of the selected item.
- */
 class ItemDetailFragment : Fragment() {
     private val navigationArgs: ItemDetailFragmentArgs by navArgs()
     lateinit var item: Item
@@ -54,9 +35,6 @@ class ItemDetailFragment : Fragment() {
         return binding.root
     }
 
-    /**
-     * Binds views with the passed in item data.
-     */
     private fun bind(item: Item) {
         binding.apply {
             itemName.text = item.itemName
@@ -70,7 +48,7 @@ class ItemDetailFragment : Fragment() {
     }
 
     /**
-     * Navigate to the Edit item screen.
+     * Code dibawah digunakan untuk mengarahkan ke layar Edit item.
      */
     private fun editItem() {
         val action = ItemDetailFragmentDirections.actionItemDetailFragmentToAddItemFragment(
@@ -81,7 +59,7 @@ class ItemDetailFragment : Fragment() {
     }
 
     /**
-     * Displays an alert dialog to get the user's confirmation before deleting the item.
+     * Code dibawah digunakan untuk menampilkan dialog peringatan untuk mendapatkan konfirmasi pengguna sebelum menghapus item.
      */
     private fun showConfirmationDialog() {
         MaterialAlertDialogBuilder(requireContext())
@@ -96,7 +74,7 @@ class ItemDetailFragment : Fragment() {
     }
 
     /**
-     * Deletes the current item and navigates to the list fragment.
+     * Menghapus item saat ini dan menavigasi ke fragmen daftar.
      */
     private fun deleteItem() {
         viewModel.deleteItem(item)
@@ -106,9 +84,6 @@ class ItemDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.itemId
-        // Retrieve the item details using the itemId.
-        // Attach an observer on the data (instead of polling for changes) and only update the
-        // the UI when the data actually changes.
         viewModel.retrieveItem(id).observe(this.viewLifecycleOwner) { selectedItem ->
             item = selectedItem
             bind(item)
@@ -116,7 +91,7 @@ class ItemDetailFragment : Fragment() {
     }
 
     /**
-     * Called when fragment is destroyed.
+     * Code dibawah berfungsi untuk memanggil fragmen saat mau dihapus
      */
     override fun onDestroyView() {
         super.onDestroyView()

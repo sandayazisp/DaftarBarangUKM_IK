@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2021 The Android Open Source Project.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package id.sandayazisp.daftarbarangukmik
 
 import androidx.lifecycle.LiveData
@@ -26,23 +10,23 @@ import id.sandayazisp.daftarbarangukmik.data.ItemDao
 import kotlinx.coroutines.launch
 
 /**
- * View Model to keep a reference to the Inventory repository and an up-to-date list of all items.
+ * Code dibawah berfungsi untuk menyimpan referensi ke repositori Daftar Barang dan daftar terbaru semua item.
  *
  */
 class InventoryViewModel(private val itemDao: ItemDao) : ViewModel() {
 
-    // Cache all items form the database using LiveData.
+    // Cache semua item dari database menggunakan LiveData.
     val allItems: LiveData<List<Item>> = itemDao.getItems().asLiveData()
 
     /**
-     * Returns true if stock is available to sell, false otherwise.
+     * Code dibawah berfungsi untuk mengembalikan nilai benar jika stok tersedia untuk dijual, salah jika sebaliknya.
      */
     fun isStockAvailable(item: Item): Boolean {
         return (item.quantityInStock > 0)
     }
 
     /**
-     * Updates an existing Item in the database.
+     * Code dibawah berfungsi untuk memperbarui Item yang ada di database.
      */
     fun updateItem(
         itemId: Int,
@@ -55,9 +39,6 @@ class InventoryViewModel(private val itemDao: ItemDao) : ViewModel() {
     }
 
 
-    /**
-     * Launching a new coroutine to update an item in a non-blocking way
-     */
     private fun updateItem(item: Item) {
         viewModelScope.launch {
             itemDao.update(item)
@@ -65,7 +46,7 @@ class InventoryViewModel(private val itemDao: ItemDao) : ViewModel() {
     }
 
     /**
-     * Decreases the stock by one unit and updates the database.
+     * Code dibawah berfungsi untuk mengurangi stok sebanyak satu unit dan memperbarui database.
      */
     fun sellItem(item: Item) {
         if (item.quantityInStock > 0) {
@@ -76,25 +57,19 @@ class InventoryViewModel(private val itemDao: ItemDao) : ViewModel() {
     }
 
     /**
-     * Inserts the new Item into database.
+     * Code di bawah berfungsi untuk menyisipkan Item baru ke dalam database.
      */
     fun addNewItem(itemName: String, itemPrice: String, itemCount: String) {
         val newItem = getNewItemEntry(itemName, itemPrice, itemCount)
         insertItem(newItem)
     }
 
-    /**
-     * Launching a new coroutine to insert an item in a non-blocking way
-     */
     private fun insertItem(item: Item) {
         viewModelScope.launch {
             itemDao.insert(item)
         }
     }
 
-    /**
-     * Launching a new coroutine to delete an item in a non-blocking way
-     */
     fun deleteItem(item: Item) {
         viewModelScope.launch {
             itemDao.delete(item)
@@ -102,14 +77,14 @@ class InventoryViewModel(private val itemDao: ItemDao) : ViewModel() {
     }
 
     /**
-     * Retrieve an item from the repository.
+     * Code dibawah berfungsi untuk mengambil data dari repositori
      */
     fun retrieveItem(id: Int): LiveData<Item> {
         return itemDao.getItem(id).asLiveData()
     }
 
     /**
-     * Returns true if the EditTexts are not empty
+     * Code dibawah berfungsi untuk mengembalikan nilai true jika EditTexts tidak kosong
      */
     fun isEntryValid(itemName: String, itemPrice: String, itemCount: String): Boolean {
         if (itemName.isBlank() || itemPrice.isBlank() || itemCount.isBlank()) {
@@ -119,8 +94,8 @@ class InventoryViewModel(private val itemDao: ItemDao) : ViewModel() {
     }
 
     /**
-     * Returns an instance of the [Item] entity class with the item info entered by the user.
-     * This will be used to add a new entry to the Inventory database.
+     * Mengembalikan instance kelas entitas [Item] dengan info item yang dimasukkan oleh pengguna.
+     * Ini akan digunakan untuk menambahkan entri baru ke database Inventaris.
      */
     private fun getNewItemEntry(itemName: String, itemPrice: String, itemCount: String): Item {
         return Item(
@@ -131,8 +106,8 @@ class InventoryViewModel(private val itemDao: ItemDao) : ViewModel() {
     }
 
     /**
-     * Called to update an existing entry in the Inventory database.
-     * Returns an instance of the [Item] entity class with the item info updated by the user.
+     * Dipanggil untuk memperbarui entri yang ada di database Inventaris.
+     * Mengembalikan instance kelas entitas [Item] dengan info item yang diperbarui oleh pengguna.
      */
     private fun getUpdatedItemEntry(
         itemId: Int,
@@ -150,7 +125,7 @@ class InventoryViewModel(private val itemDao: ItemDao) : ViewModel() {
 }
 
 /**
- * Factory class to instantiate the [ViewModel] instance.
+ * Code dibawah digunakan untuk membuat instance [ViewModel].
  */
 class InventoryViewModelFactory(private val itemDao: ItemDao) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
